@@ -1,12 +1,20 @@
 import Foundation
 
-enum SortName {
-    case Selection
-    case Bubble
-    case Insert
-    case Quick
-    case Merge
+enum SortType {
+    case selection
+    case bubble
+    case insert
+    case quick
+    case merge
 }
+
+enum ArrayType {
+    case simple
+    case sorted
+    case reverse
+}
+
+
 
 class SortArray {
     
@@ -136,17 +144,18 @@ class SortArray {
     }
     
     //Task 4.1
-    func sortArray(array: [Int], sortName: SortName) -> [Int] {
-        switch sortName {
-        case .Bubble:
+    @discardableResult
+    func sortArray(array: [Int], sortType: SortType) -> [Int] {
+        switch sortType {
+        case .bubble:
             return sortBubble(array)
-        case .Insert:
+        case .insert:
             return sortInsert(array)
-        case .Selection:
+        case .selection:
             return sortSelection(array)
-        case .Merge:
+        case .merge:
             return sortMerge(array)
-        case .Quick:
+        case .quick:
             return quickSort(array: array)
         }
     }
@@ -162,27 +171,27 @@ var data16k = arraySort.makeArraySize(16000)
 
 let dictionaryArrays = [1000 : data1k, 2000: data2k, 4000 : data4k, 8000: data8k,16000 : data16k]
 
-func timeSort (sortName: SortName, repetition: Int, typeArray: String, dictionary: Dictionary<Int, [Int]>) {
+func timeSort (sortType: SortType, repetition: Int, typeArray: ArrayType, dictionary: Dictionary<Int, [Int]>) {
     for (key, value) in dictionaryArrays {
         let currentDateTime = Date()
             for _ in 0..<repetition  {
-                arraySort.sortArray(array: value, sortName: SortName.Bubble)
+                arraySort.sortArray(array: value, sortType: sortType)
             }
         let time =  Date().timeIntervalSince(currentDateTime) / Double(repetition)
-        print("Array(\(typeArray)) size: \(key) sorted in \(time) second by \(sortName) method")
+        print("Array(\(typeArray)) size: \(key) sorted in \(time) second by \(sortType) method")
     }
 }
 
 
 // Task 4.1
-arraySort.sortArray(array: data1k, sortName: SortName.Bubble)
+arraySort.sortArray(array: data1k, sortType: .bubble)
 
 //Task 4.2
-timeSort(sortName: .Bubble, repetition: 5, typeArray: "simple", dictionary: dictionaryArrays)
-timeSort(sortName: .Selection, repetition: 5, typeArray: "simple", dictionary: dictionaryArrays)
-timeSort(sortName: .Insert, repetition: 5, typeArray: "simple", dictionary: dictionaryArrays)
-timeSort(sortName: .Merge, repetition: 5, typeArray: "simple", dictionary: dictionaryArrays)
-timeSort(sortName: .Quick, repetition: 5, typeArray: "simple", dictionary: dictionaryArrays)
+timeSort(sortType: .bubble, repetition: 5, typeArray: .simple, dictionary: dictionaryArrays)
+timeSort(sortType: .selection, repetition: 5, typeArray: .simple, dictionary: dictionaryArrays)
+timeSort(sortType: .insert, repetition: 5, typeArray: .simple, dictionary: dictionaryArrays)
+timeSort(sortType: .merge, repetition: 5, typeArray: .simple, dictionary: dictionaryArrays)
+timeSort(sortType: .quick, repetition: 5, typeArray: .simple, dictionary: dictionaryArrays)
 
 ////Task 4.3
 var sortedArray1k = data1k.sorted()
@@ -194,11 +203,11 @@ var sortedArray16k = data16k.sorted()
 let dictionarySortedArrays = [1000 : sortedArray1k, 2000: sortedArray2k,
                               4000 : sortedArray4k, 8000: sortedArray8k,16000 : sortedArray16k]
 
-timeSort(sortName: .Bubble, repetition: 5, typeArray: "sorted", dictionary: dictionarySortedArrays)
-timeSort(sortName: .Selection, repetition: 5, typeArray: "sorted", dictionary: dictionarySortedArrays)
-timeSort(sortName: .Insert, repetition: 5, typeArray: "sorted", dictionary: dictionarySortedArrays)
-timeSort(sortName: .Merge, repetition: 5, typeArray: "sorted", dictionary: dictionarySortedArrays)
-timeSort(sortName: .Quick, repetition: 5, typeArray: "sorted", dictionary: dictionarySortedArrays)
+timeSort(sortType: .bubble, repetition: 5, typeArray: .sorted, dictionary: dictionarySortedArrays)
+timeSort(sortType: .selection, repetition: 5, typeArray: .sorted, dictionary: dictionarySortedArrays)
+timeSort(sortType: .insert, repetition: 5, typeArray: .sorted, dictionary: dictionarySortedArrays)
+timeSort(sortType: .merge, repetition: 5, typeArray: .sorted, dictionary: dictionarySortedArrays)
+timeSort(sortType: .quick, repetition: 5, typeArray: .sorted, dictionary: dictionarySortedArrays)
 
 ////Task 4.4
 var reverceArray1k = data1k.sorted(){$0 > $1}
@@ -210,11 +219,11 @@ var reverceArray16k = data16k.sorted(){$0 > $1}
 let dictionaryReverceArrays = [1000 : reverceArray1k, 2000: reverceArray2k,
                               4000 : reverceArray4k, 8000: reverceArray8k,16000 : reverceArray16k]
 
-timeSort(sortName: .Bubble, repetition: 5, typeArray: "reverce", dictionary: dictionaryReverceArrays)
-timeSort(sortName: .Selection, repetition: 5, typeArray: "reverce", dictionary: dictionaryReverceArrays)
-timeSort(sortName: .Insert, repetition: 5, typeArray: "reverce", dictionary: dictionaryReverceArrays)
-timeSort(sortName: .Merge, repetition: 5, typeArray: "reverce", dictionary: dictionaryReverceArrays)
-timeSort(sortName: .Quick, repetition: 5, typeArray: "reverce", dictionary: dictionaryReverceArrays)
+timeSort(sortType: .bubble, repetition: 5, typeArray: .reverse, dictionary: dictionaryReverceArrays)
+timeSort(sortType: .selection, repetition: 5, typeArray: .reverse, dictionary: dictionaryReverceArrays)
+timeSort(sortType: .insert, repetition: 5, typeArray: .reverse, dictionary: dictionaryReverceArrays)
+timeSort(sortType: .merge, repetition: 5, typeArray: .reverse, dictionary: dictionaryReverceArrays)
+timeSort(sortType: .quick, repetition: 5, typeArray: .reverse, dictionary: dictionaryReverceArrays)
 
 
 
