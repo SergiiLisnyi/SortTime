@@ -5,7 +5,7 @@ enum SortName {
     case Bubble
     case Insert
     case Quick
-    case Marge
+    case Merge
 }
 
 class SortArray {
@@ -136,15 +136,15 @@ class SortArray {
     }
     
     //Task 4.1
-    func sortArray(array: [Int], sortNane: SortName) -> [Int] {
-        switch sortNane {
+    func sortArray(array: [Int], sortName: SortName) -> [Int] {
+        switch sortName {
         case .Bubble:
             return sortBubble(array)
         case .Insert:
             return sortInsert(array)
         case .Selection:
             return sortSelection(array)
-        case .Marge:
+        case .Merge:
             return sortMerge(array)
         case .Quick:
             return quickSort(array: array)
@@ -160,157 +160,62 @@ var data4k = arraySort.makeArraySize(4000)
 var data8k = arraySort.makeArraySize(8000)
 var data16k = arraySort.makeArraySize(16000)
 
-// Task 4.1
-//array.sortArray(array: data1k, sortNane: SortName.Bubble)
+let dictionaryArrays = [1000 : data1k, 2000: data2k, 4000 : data4k, 8000: data8k,16000 : data16k]
 
+func timeSort (sortName: SortName, repetition: Int, typeArray: String, dictionary: Dictionary<Int, [Int]>) {
+    for (key, value) in dictionaryArrays {
+        let currentDateTime = Date()
+            for _ in 0..<repetition  {
+                arraySort.sortArray(array: value, sortName: SortName.Bubble)
+            }
+        let time =  Date().timeIntervalSince(currentDateTime) / Double(repetition)
+        print("Array(\(typeArray)) size: \(key) sorted in \(time) second by \(sortName) method")
+    }
+}
+
+
+// Task 4.1
+arraySort.sortArray(array: data1k, sortName: SortName.Bubble)
 
 //Task 4.2
-func timeSortBubble (arr: [Int], repetition: Int) -> Double {
-    let currentDateTime = Date()
-    for _ in 0..<repetition  {
-        arraySort.sortArray(array: arr, sortNane: SortName.Bubble)
-    }
-    return Date().timeIntervalSince(currentDateTime) / Double(repetition)
-}
+timeSort(sortName: .Bubble, repetition: 5, typeArray: "simple", dictionary: dictionaryArrays)
+timeSort(sortName: .Selection, repetition: 5, typeArray: "simple", dictionary: dictionaryArrays)
+timeSort(sortName: .Insert, repetition: 5, typeArray: "simple", dictionary: dictionaryArrays)
+timeSort(sortName: .Merge, repetition: 5, typeArray: "simple", dictionary: dictionaryArrays)
+timeSort(sortName: .Quick, repetition: 5, typeArray: "simple", dictionary: dictionaryArrays)
 
-func timeSortInsert (arr: [Int], repetition: Int) -> Double {
-    let currentDateTime = Date()
-    for _ in 0..<repetition  {
-        arraySort.sortArray(array: arr, sortNane: SortName.Insert)
-    }
-    return Date().timeIntervalSince(currentDateTime) / Double(repetition)
-}
-
-func timeSortSelection (arr: [Int], repetition: Int) -> Double {
-    let currentDateTime = Date()
-    for _ in 0..<repetition  {
-        arraySort.sortArray(array: arr, sortNane: SortName.Selection)
-    }
-    return Date().timeIntervalSince(currentDateTime) / Double(repetition)
-}
-
-func timeSortMarge (arr: [Int], repetition: Int) -> Double {
-    let currentDateTime = Date()
-    for _ in 0..<repetition  {
-        arraySort.sortArray(array: arr, sortNane: SortName.Marge)
-    }
-    return Date().timeIntervalSince(currentDateTime) / Double(repetition)
-}
-
-func timeSortQuick (arr: [Int], repetition: Int) -> Double {
-    let currentDateTime = Date()
-    for _ in 0..<repetition  {
-        arraySort.sortArray(array: arr, sortNane: SortName.Quick)
-    }
-    return Date().timeIntervalSince(currentDateTime) / Double(repetition)
-}
-
-print("Time for sort Bubble array 1000 element: \(timeSortBubble(arr: data1k, repetition: 5))")
-print("Time for sort Bubble array 2000 element: \(timeSortBubble(arr: data2k, repetition: 5))")
-print("Time for sort Bubble array 4000 element: \(timeSortBubble(arr: data4k, repetition: 5))")
-print("Time for sort Bubble array 8000 element: \(timeSortBubble(arr: data8k, repetition: 5))")
-print("Time for sort Bubble array 16000 element: \(timeSortBubble(arr: data16k, repetition: 5))")
-
-print("Time for sort Insert array 1000 element: \(timeSortInsert(arr: data1k, repetition: 5))")
-print("Time for sort Insert array 2000 element: \(timeSortInsert(arr: data2k, repetition: 5))")
-print("Time for sort Insert array 4000 element: \(timeSortInsert(arr: data4k, repetition: 5))")
-print("Time for sort Insert array 8000 element: \(timeSortInsert(arr: data8k, repetition: 5))")
-print("Time for sort Insert array 16000 element: \(timeSortInsert(arr: data16k, repetition: 5))")
-
-print("Time for sort Selection array 1000 element: \(timeSortSelection(arr: data1k, repetition: 5))")
-print("Time for sort Selection array 2000 element: \(timeSortSelection(arr: data2k, repetition: 5))")
-print("Time for sort Selection array 4000 element: \(timeSortSelection(arr: data4k, repetition: 5))")
-print("Time for sort Selection array 8000 element: \(timeSortSelection(arr: data8k, repetition: 5))")
-print("Time for sort Selection array 16000 element: \(timeSortSelection(arr: data16k, repetition: 5))")
-
-print("Time for sort Marge array 1000 element: \(timeSortMarge(arr: data1k, repetition: 5))")
-print("Time for sort Marge array 2000 element: \(timeSortMarge(arr: data2k, repetition: 5))")
-print("Time for sort Marge array 4000 element: \(timeSortMarge(arr: data4k, repetition: 5))")
-print("Time for sort Marge array 8000 element: \(timeSortMarge(arr: data8k, repetition: 5))")
-print("Time for sort Marge array 16000 element: \(timeSortMarge(arr: data16k, repetition: 5))")
-
-print("Time for sort Quick array 1000 element: \(timeSortQuick(arr: data1k, repetition: 5))")
-print("Time for sort Quick array 2000 element: \(timeSortQuick(arr: data2k, repetition: 5))")
-print("Time for sort Quick array 4000 element: \(timeSortQuick(arr: data4k, repetition: 5))")
-print("Time for sort Quick array 8000 element: \(timeSortQuick(arr: data8k, repetition: 5))")
-print("Time for sort Quick array 16000 element: \(timeSortQuick(arr: data16k, repetition: 5))")
-
-
-
-//Task 4.3
+////Task 4.3
 var sortedArray1k = data1k.sorted()
 var sortedArray2k = data2k.sorted()
 var sortedArray4k = data4k.sorted()
 var sortedArray8k = data8k.sorted()
 var sortedArray16k = data16k.sorted()
 
-print("Time for sort Bubble arraySorted 1000 element: \(timeSortBubble(arr: sortedArray1k, repetition: 5))")
-print("Time for sort Bubble arraySorted  2000 element: \(timeSortBubble(arr: sortedArray2k, repetition: 5))")
-print("Time for sort Bubble arraySorted  4000 element: \(timeSortBubble(arr: sortedArray4k, repetition: 5))")
-print("Time for sort Bubble arraySorted  8000 element: \(timeSortBubble(arr: sortedArray8k, repetition: 5))")
-print("Time for sort Bubble arraySorted  16000 element: \(timeSortBubble(arr: sortedArray16k, repetition: 5))")
+let dictionarySortedArrays = [1000 : sortedArray1k, 2000: sortedArray2k,
+                              4000 : sortedArray4k, 8000: sortedArray8k,16000 : sortedArray16k]
 
-print("Time for sort Insert arraySorted  1000 element: \(timeSortInsert(arr: sortedArray1k, repetition: 5))")
-print("Time for sort Insert arraySorted  2000 element: \(timeSortInsert(arr: sortedArray2k, repetition: 5))")
-print("Time for sort Insert arraySorted  4000 element: \(timeSortInsert(arr: sortedArray4k, repetition: 5))")
-print("Time for sort Insert arraySorted  8000 element: \(timeSortInsert(arr: sortedArray8k, repetition: 5))")
-print("Time for sort Insert arraySorted  16000 element: \(timeSortInsert(arr: sortedArray16k, repetition: 5))")
+timeSort(sortName: .Bubble, repetition: 5, typeArray: "sorted", dictionary: dictionarySortedArrays)
+timeSort(sortName: .Selection, repetition: 5, typeArray: "sorted", dictionary: dictionarySortedArrays)
+timeSort(sortName: .Insert, repetition: 5, typeArray: "sorted", dictionary: dictionarySortedArrays)
+timeSort(sortName: .Merge, repetition: 5, typeArray: "sorted", dictionary: dictionarySortedArrays)
+timeSort(sortName: .Quick, repetition: 5, typeArray: "sorted", dictionary: dictionarySortedArrays)
 
-print("Time for sort Selection arraySorted  1000 element: \(timeSortSelection(arr: sortedArray1k, repetition: 5))")
-print("Time for sort Selection arraySorted  2000 element: \(timeSortSelection(arr: sortedArray2k, repetition: 5))")
-print("Time for sort Selection arraySorted  4000 element: \(timeSortSelection(arr: sortedArray4k, repetition: 5))")
-print("Time for sort Selection arraySorted  8000 element: \(timeSortSelection(arr: sortedArray8k, repetition: 5))")
-print("Time for sort Selection arraySorted  16000 element: \(timeSortSelection(arr: sortedArray16k, repetition: 5))")
-
-print("Time for sort Marge arraySorted  1000 element: \(timeSortMarge(arr: sortedArray1k, repetition: 5))")
-print("Time for sort Marge arraySorted  2000 element: \(timeSortMarge(arr: sortedArray2k, repetition: 5))")
-print("Time for sort Marge arraySorted  4000 element: \(timeSortMarge(arr: sortedArray4k, repetition: 5))")
-print("Time for sort Marge arraySorted  8000 element: \(timeSortMarge(arr: sortedArray8k, repetition: 5))")
-print("Time for sort Marge arraySorted  16000 element: \(timeSortMarge(arr: sortedArray16k, repetition: 5))")
-
-print("Time for sort Quick arraySorted  1000 element: \(timeSortQuick(arr: sortedArray1k, repetition: 5))")
-print("Time for sort Quick arraySorted  2000 element: \(timeSortQuick(arr: sortedArray2k, repetition: 5))")
-print("Time for sort Quick arraySorted  4000 element: \(timeSortQuick(arr: sortedArray4k, repetition: 5))")
-print("Time for sort Quick arraySorted  8000 element: \(timeSortQuick(arr: sortedArray8k, repetition: 5))")
-print("Time for sort Quick arraySorted  16000 element: \(timeSortQuick(arr: sortedArray16k, repetition: 5))")
-
-
-//Task 4.4
+////Task 4.4
 var reverceArray1k = data1k.sorted(){$0 > $1}
 var reverceArray2k = data2k.sorted(){$0 > $1}
 var reverceArray4k = data4k.sorted(){$0 > $1}
 var reverceArray8k = data8k.sorted(){$0 > $1}
 var reverceArray16k = data16k.sorted(){$0 > $1}
 
-print("Time for sort Bubble arrayReverce 1000 element: \(timeSortBubble(arr: reverceArray1k, repetition: 5))")
-print("Time for sort Bubble arrayReverce 2000 element: \(timeSortBubble(arr: reverceArray2k, repetition: 5))")
-print("Time for sort Bubble arrayReverce 4000 element: \(timeSortBubble(arr: reverceArray4k, repetition: 5))")
-print("Time for sort Bubble arrayReverce 8000 element: \(timeSortBubble(arr: reverceArray8k, repetition: 5))")
-print("Time for sort Bubble arrayReverce 16000 element: \(timeSortBubble(arr: reverceArray16k, repetition: 5))")
+let dictionaryReverceArrays = [1000 : reverceArray1k, 2000: reverceArray2k,
+                              4000 : reverceArray4k, 8000: reverceArray8k,16000 : reverceArray16k]
 
-print("Time for sort Insert arrayReverce 1000 element: \(timeSortInsert(arr: reverceArray1k, repetition: 5))")
-print("Time for sort Insert arrayReverce 2000 element: \(timeSortInsert(arr: reverceArray2k, repetition: 5))")
-print("Time for sort Insert arrayReverce 4000 element: \(timeSortInsert(arr: reverceArray4k, repetition: 5))")
-print("Time for sort Insert arrayReverce 8000 element: \(timeSortInsert(arr: reverceArray8k, repetition: 5))")
-print("Time for sort Insert arrayReverce 16000 element: \(timeSortInsert(arr: reverceArray16k, repetition: 5))")
+timeSort(sortName: .Bubble, repetition: 5, typeArray: "reverce", dictionary: dictionaryReverceArrays)
+timeSort(sortName: .Selection, repetition: 5, typeArray: "reverce", dictionary: dictionaryReverceArrays)
+timeSort(sortName: .Insert, repetition: 5, typeArray: "reverce", dictionary: dictionaryReverceArrays)
+timeSort(sortName: .Merge, repetition: 5, typeArray: "reverce", dictionary: dictionaryReverceArrays)
+timeSort(sortName: .Quick, repetition: 5, typeArray: "reverce", dictionary: dictionaryReverceArrays)
 
-print("Time for sort Selection arrayReverce 1000 element: \(timeSortSelection(arr: reverceArray1k, repetition: 5))")
-print("Time for sort Selection arrayReverce 2000 element: \(timeSortSelection(arr: reverceArray2k, repetition: 5))")
-print("Time for sort Selection arrayReverce 4000 element: \(timeSortSelection(arr: reverceArray4k, repetition: 5))")
-print("Time for sort Selection arrayReverce 8000 element: \(timeSortSelection(arr: reverceArray8k, repetition: 5))")
-print("Time for sort Selection arrayReverce 16000 element: \(timeSortSelection(arr: reverceArray16k, repetition: 5))")
-
-print("Time for sort Marge arrayReverce 1000 element: \(timeSortMarge(arr: reverceArray1k, repetition: 5))")
-print("Time for sort Marge arrayReverce 2000 element: \(timeSortMarge(arr: reverceArray2k, repetition: 5))")
-print("Time for sort Marge arrayReverce 4000 element: \(timeSortMarge(arr: reverceArray4k, repetition: 5))")
-print("Time for sort Marge arrayReverce 8000 element: \(timeSortMarge(arr: reverceArray8k, repetition: 5))")
-print("Time for sort Marge arrayReverce 16000 element: \(timeSortMarge(arr: reverceArray16k, repetition: 5))")
-
-print("Time for sort Quick arrayReverce 1000 element: \(timeSortQuick(arr: reverceArray1k, repetition: 5))")
-print("Time for sort Quick arrayReverce 2000 element: \(timeSortQuick(arr: reverceArray2k, repetition: 5))")
-print("Time for sort Quick arrayReverce 4000 element: \(timeSortQuick(arr: reverceArray4k, repetition: 5))")
-print("Time for sort Quick arrayReverce 8000 element: \(timeSortQuick(arr: reverceArray8k, repetition: 5))")
-print("Time for sort Quick arrayReverce 16000 element: \(timeSortQuick(arr: reverceArray16k, repetition: 5))")
 
 
 
